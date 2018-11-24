@@ -21,5 +21,5 @@ sess.run(init)
 for i in range(100):
   batch_xs, batch_ys = mnist.train.next_batch(50)
   acc, tr = sess.run([accuracy,train_step], feed_dict={x: batch_xs, y_: batch_ys})
-  print(i,acc)
+  print("times:",i,acc)
 sess.close()
