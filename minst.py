@@ -13,14 +13,13 @@ cross_entropy = -tf.reduce_sum(y_*tf.log(y))
 
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 init = tf.initialize_all_variables()
-
+correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 sess = tf.Session()
 sess.run(init)
 
 for i in range(100):
   batch_xs, batch_ys = mnist.train.next_batch(50)
-  sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
-  print(i)
-
-correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+  acc, tr = sess.run([accuracy,train_step], feed_dict={x: batch_xs, y_: batch_ys})
+  print(i,acc)
+sess.close()
